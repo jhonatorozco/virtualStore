@@ -13,12 +13,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+
     @Autowired
     private IProductService productService;
 
 
     @PostMapping
-    public ResponseEntity<Void> createProduct(@RequestBody ProductModel product){
+    public ResponseEntity<Void> createProduct(@RequestBody ProductModel product) {
 
         try{
             productService.addProduct(product);

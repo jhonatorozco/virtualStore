@@ -2,7 +2,7 @@ package com.keyrus.virtualStore.product;
 
 import com.keyrus.virtualStore.exception.VirtualStoreException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateJdbcException;
+import org.springframework.orm.hibernate5.HibernateJdbcException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

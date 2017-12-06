@@ -18,7 +18,7 @@ public class ProductServiceImpl implements IProductService {
         try {
             productRepository.save(product);
         } catch (HibernateJdbcException e) {
-            throw new VirtualStoreException("Error en la conexión a la base de datos");
+            throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
 
     }
@@ -29,7 +29,7 @@ public class ProductServiceImpl implements IProductService {
         try{
             product = productRepository.findOne(id);
             if(product == null){
-                throw new VirtualStoreException("El producto no existe");
+                throw new VirtualStoreException("The product doesn't exist");
             }
             product.setName(updatedProduct.getName());
             product.setDescription(updatedProduct.getDescription());
@@ -37,7 +37,7 @@ public class ProductServiceImpl implements IProductService {
             product.setAvailableQuantity(updatedProduct.getAvailableQuantity());
             product = productRepository.save(product);
         }catch (VirtualStoreException e){
-            throw new VirtualStoreException("Error en la conexión a la base de datos");
+            throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
         return product;
 
@@ -49,7 +49,7 @@ public class ProductServiceImpl implements IProductService {
         try {
            product = productRepository.findOne(id);
         } catch (HibernateJdbcException e) {
-            throw new VirtualStoreException("Error en la conexión a la base de datos");
+            throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
         return product;
     }
@@ -60,7 +60,7 @@ public class ProductServiceImpl implements IProductService {
         try {
             products= productRepository.findAll();
         } catch (HibernateJdbcException e) {
-            throw new VirtualStoreException("Error en la conexión a la base de datos");
+            throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
         return products;
     }
@@ -70,7 +70,7 @@ public class ProductServiceImpl implements IProductService {
         try {
             productRepository.delete(id);
         } catch (HibernateJdbcException e) {
-            throw new VirtualStoreException("Error en la conexión a la base de datos");
+            throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
 
     }

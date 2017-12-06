@@ -1,6 +1,7 @@
 package com.keyrus.virtualStore.client;
 
 import com.keyrus.virtualStore.exception.VirtualStoreException;
+import com.keyrus.virtualStore.saleOrder.SaleOrderModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateJdbcException;
 import org.springframework.stereotype.Service;
@@ -29,12 +30,13 @@ public class ClientServiceImpl implements IClientService {
         try{
             client = clientRepository.findOne(id);
             if(client == null){
-                throw new VirtualStoreException("El cliente no existe");
+                throw new VirtualStoreException("The client doesn't exist");
             }
             client.setName(updatedClient.getName());
             client.setEmail(updatedClient.getEmail());
             client.setPassword(updatedClient.getPassword());
             client.setAddress(updatedClient.getAddress());
+            client.setOrders(updatedClient.getOrders());
             client = clientRepository.save(client);
         }catch (VirtualStoreException e){
             throw new VirtualStoreException("");
@@ -72,6 +74,20 @@ public class ClientServiceImpl implements IClientService {
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
+
+    }
+
+    @Override
+    public List<SaleOrderModel> findOrders(Long id) throws VirtualStoreException{
+        ClientModel client;
+        List<SaleOrderModel> orders;
+        try {
+            client = clientRepository.findOne(id);
+            orders = client.getOrders();
+        } catch (HibernateJdbcException e) {
+            throw new VirtualStoreException("The client doesn't exist");
+        }
+        return orders;
 
     }
 }

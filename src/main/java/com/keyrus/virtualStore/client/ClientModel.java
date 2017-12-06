@@ -22,6 +22,7 @@ public class ClientModel {
     @Column(name = "email")
     private String email;
 
+    @JsonIgnore
     @Basic(optional = false)
     @Column(name = "password")
     private float password;
@@ -29,8 +30,8 @@ public class ClientModel {
     @Column(name = "address")
     private String address;
 
-
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "clientOrder", cascade = CascadeType.ALL)
     private List<SaleOrderModel> orders;
 
     public Long getId() {

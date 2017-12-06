@@ -1,6 +1,7 @@
 package com.keyrus.virtualStore.client;
 
 import com.keyrus.virtualStore.exception.VirtualStoreException;
+import com.keyrus.virtualStore.saleOrder.SaleOrderModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,6 +74,18 @@ public class ClientController {
         }catch(VirtualStoreException e){
             return new ResponseEntity<ClientModel>(client,HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping(value = "/{clientId}/saleOrders")
+    public ResponseEntity<List<SaleOrderModel>>getOrdersBelongToClient(@PathVariable("clientId") Long clientId) {
+        List<SaleOrderModel> orders= new ArrayList<>();
+        try{
+            orders= clientService.findOrders(clientId);
+            return new ResponseEntity<List<SaleOrderModel>>(orders,HttpStatus.OK);
+        }catch(VirtualStoreException e){
+            return new ResponseEntity<List<SaleOrderModel>>(orders,HttpStatus.CONFLICT);
+        }
+
     }
 
 }

@@ -13,16 +13,17 @@ public class SaleOrderModel implements Serializable{
     @Id
     @Basic(optional = false)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JoinColumn(name = "clientId")
     @ManyToOne(optional = false)
-    @JoinColumn(name = "clientId",referencedColumnName = "id")
-    private ClientModel client;
+    private ClientModel clientOrder;
 
     @Column(name = "totalPrice")
     private float totalPrice;
 
-    @Column(name = "id")
+    @Column(name = "saleOrderDate")
     private Date saleOrderDate;
 
     public Long getId() {
@@ -33,12 +34,12 @@ public class SaleOrderModel implements Serializable{
         this.id = id;
     }
 
-    public ClientModel getClient() {
-        return client;
+    public ClientModel getClientOrder() {
+        return clientOrder;
     }
 
-    public void setClient(ClientModel client) {
-        this.client = client;
+    public void setClientOrder(ClientModel clientOrder) {
+        this.clientOrder = clientOrder;
     }
 
     public float getTotalPrice() {

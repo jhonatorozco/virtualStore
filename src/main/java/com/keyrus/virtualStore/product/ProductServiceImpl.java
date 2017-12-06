@@ -24,7 +24,22 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public void updateProduct(ProductModel product) throws VirtualStoreException {
+    public ProductModel updateProduct(Long id, ProductModel updatedProduct) throws VirtualStoreException {
+        ProductModel product;
+        try{
+            product = productRepository.findOne(id);
+            if(product == null){
+                throw new VirtualStoreException("El producto no existe");
+            }
+            product.setName(updatedProduct.getName());
+            product.setDescription(updatedProduct.getDescription());
+            product.setPrice(updatedProduct.getPrice());
+            product.setAvailableQuantity(updatedProduct.getAvailableQuantity());
+            product = productRepository.save(product);
+        }catch (VirtualStoreException e){
+            throw new VirtualStoreException("Error en la conexión a la base de datos");
+        }
+        return product;
 
     }
 

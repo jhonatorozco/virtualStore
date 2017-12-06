@@ -41,15 +41,37 @@ public class ProductController {
 
     }
 
-
-    @RequestMapping(value = "/{productId}")
-    @DeleteMapping
-    public ResponseEntity<Void> deleteNotification(@PathVariable("productId") Long productId) {
+    @DeleteMapping(value = "/{productId}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable("productId") Long productId) {
         try{
             productService.deleteProduct(productId);
             return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
         }catch(VirtualStoreException e){
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+
+    @GetMapping(value = "/{productId}")
+    public ResponseEntity<ProductModel> getOneProduct(@PathVariable("productId") Long productId) {
+        ProductModel product = new ProductModel();
+        try{
+            product = productService.findProduct(productId);
+            return new ResponseEntity<ProductModel>(product,HttpStatus.OK);
+        }catch(VirtualStoreException e){
+            return new ResponseEntity<ProductModel>(product,HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping(value = "/{productId}")
+    public ResponseEntity<ProductModel> updateProduct(@PathVariable("productId") Long productId, @RequestBody ProductModel updatedProduct) {
+        ProductModel product = new ProductModel();
+        try{
+           product = productService.updateProduct(productId,updatedProduct);
+            return new ResponseEntity<ProductModel>(product,HttpStatus.OK);
+        }catch(VirtualStoreException e){
+            return new ResponseEntity<ProductModel>(product,HttpStatus.NOT_FOUND);
         }
     }
 

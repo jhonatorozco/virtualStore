@@ -30,7 +30,7 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
             if(saleOrder == null){
                 throw new VirtualStoreException("The sale order doesn't exist");
             }
-            saleOrder.setClientOrder(updatedSaleOrder.getClientOrder());
+            saleOrder.setCustomerOrder(updatedSaleOrder.getCustomerOrder());
             saleOrder.setSaleOrderDate(updatedSaleOrder.getSaleOrderDate());
             saleOrder.setTotalPrice(updatedSaleOrder.getTotalPrice());
             saleOrder = saleOrderRepository.save(saleOrder);

@@ -1,4 +1,4 @@
-package com.keyrus.virtualStore.client;
+package com.keyrus.virtualStore.customer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.keyrus.virtualStore.saleOrder.SaleOrderModel;
@@ -7,8 +7,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "client")
-public class ClientModel {
+@Table(name = "customer")
+public class CustomerModel {
     @Id
     @Basic(optional = false)
     @Column(name = "id")
@@ -31,7 +31,7 @@ public class ClientModel {
     private String address;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "clientOrder", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL)
     private List<SaleOrderModel> orders;
 
     public Long getId() {

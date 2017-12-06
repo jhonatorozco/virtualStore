@@ -1,7 +1,6 @@
 package com.keyrus.virtualStore.saleOrder;
 
-import com.keyrus.virtualStore.client.ClientModel;
-import com.sun.deploy.util.SessionState;
+import com.keyrus.virtualStore.customer.CustomerModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,9 +15,9 @@ public class SaleOrderModel implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "clientId")
+    @JoinColumn(name = "customerId")
     @ManyToOne(optional = false)
-    private ClientModel clientOrder;
+    private CustomerModel customerOrder;
 
     @Column(name = "totalPrice")
     private float totalPrice;
@@ -34,12 +33,12 @@ public class SaleOrderModel implements Serializable{
         this.id = id;
     }
 
-    public ClientModel getClientOrder() {
-        return clientOrder;
+    public CustomerModel getCustomerOrder() {
+        return customerOrder;
     }
 
-    public void setClientOrder(ClientModel clientOrder) {
-        this.clientOrder = clientOrder;
+    public void setCustomerOrder(CustomerModel customerOrder) {
+        this.customerOrder = customerOrder;
     }
 
     public float getTotalPrice() {

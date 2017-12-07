@@ -36,7 +36,7 @@ public class ProductModel implements Serializable {
     private float availableQuantity;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "saleOrderProductId.product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<SaleOrderProductModel> productsOrder;
 
     public Long getId() {

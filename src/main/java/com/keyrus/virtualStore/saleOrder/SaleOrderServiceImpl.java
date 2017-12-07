@@ -1,10 +1,10 @@
 package com.keyrus.virtualStore.saleOrder;
 
+import com.keyrus.virtualStore.customer.CustomerModel;
+import com.keyrus.virtualStore.customer.ICustomerRepository;
 import com.keyrus.virtualStore.exception.VirtualStoreException;
-import com.keyrus.virtualStore.product.ProductModel;
 import com.keyrus.virtualStore.saleOrderProduct.ISaleOrderProductRepository;
 import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductDTO;
-import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductIdentity;
 import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateJdbcException;
@@ -21,24 +21,33 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
     @Autowired
     private ISaleOrderProductRepository saleOrderProductRepository;
 
+    @Autowired
+    private ICustomerRepository customerRepository;
+
     @Override
     public void addSaleOrder(SaleOrderDTO saleOrder) throws VirtualStoreException {
         try {
+
             SaleOrderModel saleOrderModel = new SaleOrderModel();
             saleOrderModel.setSaleOrderDate(saleOrder.getSaleOrderDate());
-            saleOrderModel.setCustomerOrder(saleOrder.getCustomerOrder());
-            saleOrderModel = saleOrderRepository.save(saleOrderModel);
+            String email = saleOrder.getCustomerOrder().getEmail();
+            CustomerModel customer = customerRepository.findByEmail(email);
+            if(customer == null){
+                throw new VirtualStoreException("The customer with this email doesn't exist");
+            }
+
+            saleOrderModel.setCustomerOrder(customer);
+            saleOrderModel = saleOrderRepository.saveAndFlush(saleOrderModel);
             List<SaleOrderProductDTO> products = saleOrder.getProducts();
             float totalPrice = 0;
 
             for(SaleOrderProductDTO product : products){
 
                 SaleOrderProductModel saleOrderProduct = new SaleOrderProductModel();
-                SaleOrderProductIdentity saleOrderProductId = new SaleOrderProductIdentity();
-                saleOrderProductId.setProduct(product.getProduct());
-                saleOrderProductId.setSaleOrder(saleOrderModel);
-                saleOrderProduct.setSaleOrderProductId(saleOrderProductId);
-                saleOrderProductRepository.save(saleOrderProduct);
+                saleOrderProduct.setProduct(product.getProduct());
+                saleOrderProduct.setSaleOrder(saleOrderModel);
+                saleOrderProduct.setQuantity(product.getQuantity());
+                saleOrderProductRepository.saveAndFlush(saleOrderProduct);
                 totalPrice = totalPrice + product.getQuantity()*product.getProduct().getPrice();
 
             }

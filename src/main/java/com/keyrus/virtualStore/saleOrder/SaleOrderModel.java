@@ -29,7 +29,7 @@ public class SaleOrderModel implements Serializable{
     private Date saleOrderDate;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "saleOrderProductId.saleOrder", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "saleOrder", cascade = CascadeType.ALL)
     private List<SaleOrderProductModel> productsOrder;
 
     public Long getId() {

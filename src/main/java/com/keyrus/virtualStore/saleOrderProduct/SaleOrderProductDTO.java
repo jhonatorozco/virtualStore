@@ -13,7 +13,7 @@ public class SaleOrderProductDTO implements Serializable {
 
     public SaleOrderProductDTO(SaleOrderProductModel saleOrderProduct){
 
-        this.product = saleOrderProduct.getSaleOrderProductId().getProduct();
+        this.product = saleOrderProduct.getProduct();
         this.quantity = saleOrderProduct.getQuantity();
     }
 

@@ -25,7 +25,7 @@ public class SaleOrderProductServiceImpl implements ISaleOrderProductService {
     }
 
     @Override
-    public SaleOrderProductModel updateSaleOrderProduct(SaleOrderProductIdentity id, SaleOrderProductModel updatedSaleOrderProduct)
+    public SaleOrderProductModel updateSaleOrderProduct(Long id, SaleOrderProductModel updatedSaleOrderProduct)
             throws VirtualStoreException {
 
         SaleOrderProductModel saleOrderProduct;
@@ -34,7 +34,8 @@ public class SaleOrderProductServiceImpl implements ISaleOrderProductService {
             if(saleOrderProduct == null){
                 throw new VirtualStoreException("The sale order doesn't exist");
             }
-            saleOrderProduct.setSaleOrderProductId(updatedSaleOrderProduct.getSaleOrderProductId());
+            saleOrderProduct.setProduct(updatedSaleOrderProduct.getProduct());
+            saleOrderProduct.setSaleOrder(updatedSaleOrderProduct.getSaleOrder());
             saleOrderProduct.setQuantity(updatedSaleOrderProduct.getQuantity());
             saleOrderProduct = saleOrderProductRepository.save(saleOrderProduct);
         }catch (VirtualStoreException e){
@@ -45,7 +46,7 @@ public class SaleOrderProductServiceImpl implements ISaleOrderProductService {
     }
 
     @Override
-    public SaleOrderProductModel findSaleOrderProduct(SaleOrderProductIdentity id) throws VirtualStoreException {
+    public SaleOrderProductModel findSaleOrderProduct(Long id) throws VirtualStoreException {
         SaleOrderProductModel saleOrderProduct;
         try {
             saleOrderProduct = saleOrderProductRepository.findOne(id);
@@ -67,7 +68,7 @@ public class SaleOrderProductServiceImpl implements ISaleOrderProductService {
     }
 
     @Override
-    public void deleteSaleOrderProduct(SaleOrderProductIdentity id) throws VirtualStoreException {
+    public void deleteSaleOrderProduct(Long id) throws VirtualStoreException {
         try {
             saleOrderProductRepository.delete(id);
         } catch (HibernateJdbcException e) {

@@ -1,36 +1,23 @@
 package com.keyrus.virtualStore.saleOrder;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.keyrus.virtualStore.customer.CustomerModel;
-import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductModel;
+import com.keyrus.virtualStore.product.ProductModel;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table(name = "saleOrder")
-public class SaleOrderModel implements Serializable{
-    @Id
-    @Basic(optional = false)
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class SaleOrderDTO implements Serializable {
+
     private Long id;
 
-    @JoinColumn(name = "customerId")
-    @ManyToOne(optional = false)
     private CustomerModel customerOrder;
 
-    @Column(name = "totalPrice")
     private float totalPrice;
 
-    @Column(name = "saleOrderDate")
     private Date saleOrderDate;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "saleOrderProductId.saleOrder", cascade = CascadeType.ALL)
-    private List<SaleOrderProductModel> productsOrder;
+    private List<ProductModel> products;
 
     public Long getId() {
         return id;
@@ -64,11 +51,11 @@ public class SaleOrderModel implements Serializable{
         this.saleOrderDate = saleOrderDate;
     }
 
-    public List<SaleOrderProductModel> getProductsOrder() {
-        return productsOrder;
+    public List<ProductModel> getProducts() {
+        return products;
     }
 
-    public void setProductsOrder(List<SaleOrderProductModel> productsOrder) {
-        this.productsOrder = productsOrder;
+    public void setProducts(List<ProductModel> products) {
+        this.products = products;
     }
 }

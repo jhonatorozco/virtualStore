@@ -1,6 +1,8 @@
 package com.keyrus.virtualStore.saleOrder;
 
 import com.keyrus.virtualStore.exception.VirtualStoreException;
+import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductIdentity;
+import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,6 +74,17 @@ public class SaleOrderController {
             return new ResponseEntity<SaleOrderModel>(saleOrder,HttpStatus.OK);
         }catch(VirtualStoreException e){
             return new ResponseEntity<SaleOrderModel>(saleOrder,HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(value = "/{saleOrderId}/products")
+    public ResponseEntity <List<SaleOrderProductModel>> getProductsBelongToOrder(@PathVariable("saleOrderId") Long saleOrderId) {
+         List<SaleOrderProductModel> productsOrder= new ArrayList<>();
+        try{
+            productsOrder = saleOrderService.findProducts(saleOrderId);
+            return new ResponseEntity<List<SaleOrderProductModel>> (productsOrder,HttpStatus.OK);
+        }catch(VirtualStoreException e){
+            return new ResponseEntity <List<SaleOrderProductModel>> (productsOrder,HttpStatus.NOT_FOUND);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.keyrus.virtualStore.saleOrder;
 
 import com.keyrus.virtualStore.exception.VirtualStoreException;
+import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateJdbcException;
 import org.springframework.stereotype.Service;
@@ -70,6 +71,19 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
+    }
+
+    @Override
+    public List<SaleOrderProductModel> findProducts(Long id) throws VirtualStoreException{
+        SaleOrderModel saleOrder;
+        List<SaleOrderProductModel> productsOrder;
+        try {
+            saleOrder = saleOrderRepository.findOne(id);
+            productsOrder = saleOrder.getProductsOrder();
+        } catch (HibernateJdbcException e) {
+            throw new VirtualStoreException("It doesn't exist products for that order");
+        }
+        return productsOrder;
 
     }
 }

@@ -2,6 +2,7 @@ package com.keyrus.virtualStore.saleOrder;
 
 import com.keyrus.virtualStore.customer.CustomerModel;
 import com.keyrus.virtualStore.product.ProductModel;
+import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductDTO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class SaleOrderDTO implements Serializable {
     private CustomerModel customerOrder;
     private float totalPrice;
     private Date saleOrderDate;
-    private List<ProductModel> products;
+    private List<SaleOrderProductDTO> products;
 
     public SaleOrderDTO(){}
 
@@ -59,11 +60,11 @@ public class SaleOrderDTO implements Serializable {
         this.saleOrderDate = saleOrderDate;
     }
 
-    public List<ProductModel> getProducts() {
+    public List<SaleOrderProductDTO> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductModel> products) {
+    public void setProducts(List<SaleOrderProductDTO> products) {
         this.products = products;
     }
 }

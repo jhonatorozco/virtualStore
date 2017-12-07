@@ -3,6 +3,7 @@ package com.keyrus.virtualStore.saleOrder;
 import com.keyrus.virtualStore.exception.VirtualStoreException;
 import com.keyrus.virtualStore.product.ProductModel;
 import com.keyrus.virtualStore.saleOrderProduct.ISaleOrderProductRepository;
+import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductDTO;
 import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductIdentity;
 import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,13 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
             saleOrderModel.setSaleOrderDate(saleOrder.getSaleOrderDate());
             saleOrderModel.setCustomerOrder(saleOrder.getCustomerOrder());
             saleOrderModel = saleOrderRepository.save(saleOrderModel);
-            List<ProductModel> products = saleOrder.getProducts();
+            List<SaleOrderProductDTO> products = saleOrder.getProducts();
 
-            for(ProductModel product : products){
+            for(SaleOrderProductDTO product : products){
 
                 SaleOrderProductModel saleOrderProduct = new SaleOrderProductModel();
                 SaleOrderProductIdentity saleOrderProductId = new SaleOrderProductIdentity();
-                saleOrderProductId.setProduct(product);
+                saleOrderProductId.setProduct(product.getProduct());
                 saleOrderProductId.setSaleOrder(saleOrderModel);
                 saleOrderProduct.setSaleOrderProductId(saleOrderProductId);
                 saleOrderProductRepository.save(saleOrderProduct);
@@ -109,8 +110,8 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
     }
 
     @Override
-    public List<ProductModel> findProducts(Long id) throws VirtualStoreException{
-        List<ProductModel> products = new ArrayList<>();
+    public List<SaleOrderProductDTO> findProducts(Long id) throws VirtualStoreException{
+        List<SaleOrderProductDTO> products = new ArrayList<>();
         SaleOrderModel saleOrder;
         List<SaleOrderProductModel> saleOrderProducts;
         try {
@@ -118,7 +119,8 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
             saleOrderProducts = saleOrder.getProductsOrder();
             if(!saleOrderProducts.isEmpty()){
                 for(SaleOrderProductModel saleOrderProduct : saleOrderProducts){
-                    products.add(saleOrderProduct.getSaleOrderProductId().getProduct());
+                    SaleOrderProductDTO saleOrderProductDTO = new SaleOrderProductDTO(saleOrderProduct);
+                    products.add(saleOrderProductDTO);
                 }
             }
         } catch (HibernateJdbcException e) {

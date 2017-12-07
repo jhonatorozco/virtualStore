@@ -1,7 +1,7 @@
 package com.keyrus.virtualStore.saleOrder;
 
 import com.keyrus.virtualStore.exception.VirtualStoreException;
-import com.keyrus.virtualStore.product.ProductModel;
+import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductDTO;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ public interface ISaleOrderService {
     SaleOrderModel findSaleOrder(Long id) throws VirtualStoreException;
     List<SaleOrderDTO> findAll() throws VirtualStoreException;
     void deleteSaleOrder(Long id) throws VirtualStoreException;
-    List<ProductModel> findProducts(Long id) throws VirtualStoreException;
+    List<SaleOrderProductDTO> findProducts(Long id) throws VirtualStoreException;
 }

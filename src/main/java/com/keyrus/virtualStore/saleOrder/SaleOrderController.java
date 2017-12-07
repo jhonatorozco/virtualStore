@@ -1,8 +1,7 @@
 package com.keyrus.virtualStore.saleOrder;
 
 import com.keyrus.virtualStore.exception.VirtualStoreException;
-import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductIdentity;
-import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductModel;
+import com.keyrus.virtualStore.product.ProductModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,7 @@ public class SaleOrderController {
 
 
     @PostMapping
-    public ResponseEntity<Void> createSaleOrder(@RequestBody SaleOrderModel saleOrder) {
+    public ResponseEntity<Void> createSaleOrder(@RequestBody SaleOrderDTO saleOrder) {
 
         try{
             saleOrderService.addSaleOrder(saleOrder);
@@ -31,13 +30,13 @@ public class SaleOrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SaleOrderModel>> getSaleOrders() {
-        List<SaleOrderModel> saleOrders= new ArrayList<>();
+    public ResponseEntity<List<SaleOrderDTO>> getSaleOrders() {
+        List<SaleOrderDTO> saleOrders= new ArrayList<>();
         try{
             saleOrders= saleOrderService.findAll();
-            return new ResponseEntity<List<SaleOrderModel>>(saleOrders,HttpStatus.OK);
+            return new ResponseEntity<List<SaleOrderDTO>>(saleOrders,HttpStatus.OK);
         }catch(VirtualStoreException e){
-            return new ResponseEntity<List<SaleOrderModel>>(saleOrders,HttpStatus.CONFLICT);
+            return new ResponseEntity<List<SaleOrderDTO>>(saleOrders,HttpStatus.CONFLICT);
         }
 
 
@@ -78,13 +77,14 @@ public class SaleOrderController {
     }
 
     @GetMapping(value = "/{saleOrderId}/products")
-    public ResponseEntity <List<SaleOrderProductModel>> getProductsBelongToOrder(@PathVariable("saleOrderId") Long saleOrderId) {
-         List<SaleOrderProductModel> productsOrder= new ArrayList<>();
+    public ResponseEntity <List<ProductModel>> getProductsBelongToOrder(@PathVariable("saleOrderId") Long saleOrderId) {
+         List<ProductModel> products = new ArrayList<>();
+
         try{
-            productsOrder = saleOrderService.findProducts(saleOrderId);
-            return new ResponseEntity<List<SaleOrderProductModel>> (productsOrder,HttpStatus.OK);
+            products = saleOrderService.findProducts(saleOrderId);
+            return new ResponseEntity<List<ProductModel>> (products,HttpStatus.OK);
         }catch(VirtualStoreException e){
-            return new ResponseEntity <List<SaleOrderProductModel>> (productsOrder,HttpStatus.NOT_FOUND);
+            return new ResponseEntity <List<ProductModel>> (products,HttpStatus.NOT_FOUND);
         }
     }
 

@@ -4,20 +4,28 @@ import com.keyrus.virtualStore.customer.CustomerModel;
 import com.keyrus.virtualStore.product.ProductModel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class SaleOrderDTO implements Serializable {
 
     private Long id;
-
     private CustomerModel customerOrder;
-
     private float totalPrice;
-
     private Date saleOrderDate;
-
     private List<ProductModel> products;
+
+    public SaleOrderDTO(){}
+
+    public SaleOrderDTO(SaleOrderModel saleOrderModel){
+
+        this.id = saleOrderModel.getId();
+        this.totalPrice = saleOrderModel.getTotalPrice();
+        this.customerOrder = saleOrderModel.getCustomerOrder();
+        this.saleOrderDate = saleOrderModel.getSaleOrderDate();
+        this.products = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;

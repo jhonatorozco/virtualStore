@@ -1,7 +1,11 @@
 package com.keyrus.virtualStore.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductModel;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Java Transfer Object for product table.
@@ -30,6 +34,10 @@ public class ProductModel implements Serializable {
     @Basic(optional = false)
     @Column(name = "availableQuantity")
     private float availableQuantity;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "saleOrderProductId.product", cascade = CascadeType.ALL)
+    private List<SaleOrderProductModel> productsOrder;
 
     public Long getId() {
         return id;
@@ -63,12 +71,19 @@ public class ProductModel implements Serializable {
         this.price = price;
     }
 
-
     public float getAvailableQuantity() {
         return availableQuantity;
     }
 
     public void setAvailableQuantity(float availableQuantity) {
         this.availableQuantity = availableQuantity;
+    }
+
+    public List<SaleOrderProductModel> getProductsOrder() {
+        return productsOrder;
+    }
+
+    public void setProductsOrder(List<SaleOrderProductModel> productsOrder) {
+        this.productsOrder = productsOrder;
     }
 }

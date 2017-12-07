@@ -25,7 +25,7 @@ public class CustomerModel {
     @JsonIgnore
     @Basic(optional = false)
     @Column(name = "password")
-    private float password;
+    private String password;
 
     @Column(name = "address")
     private String address;
@@ -58,11 +58,11 @@ public class CustomerModel {
         this.email = email;
     }
 
-    public float getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(float password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

@@ -1,7 +1,6 @@
 package com.keyrus.virtualStore.saleOrder;
 
 import com.keyrus.virtualStore.exception.VirtualStoreException;
-import com.keyrus.virtualStore.product.ProductModel;
 import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -29,6 +29,7 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
             saleOrderModel.setCustomerOrder(saleOrder.getCustomerOrder());
             saleOrderModel = saleOrderRepository.save(saleOrderModel);
             List<SaleOrderProductDTO> products = saleOrder.getProducts();
+            float totalPrice = 0;
 
             for(SaleOrderProductDTO product : products){
 
@@ -38,8 +39,11 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
                 saleOrderProductId.setSaleOrder(saleOrderModel);
                 saleOrderProduct.setSaleOrderProductId(saleOrderProductId);
                 saleOrderProductRepository.save(saleOrderProduct);
+                totalPrice = totalPrice + product.getQuantity()*product.getProduct().getPrice();
 
             }
+            saleOrderModel.setTotalPrice(totalPrice);
+            updateSaleOrder(saleOrderModel.getId(),saleOrderModel);
 
 
         } catch (HibernateJdbcException e) {

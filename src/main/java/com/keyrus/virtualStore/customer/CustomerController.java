@@ -77,13 +77,13 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/{customerId}/saleOrders")
-    public ResponseEntity<List<SaleOrderModel>>getOrdersBelongToCustomer(@PathVariable("customerId") Long customerId) {
-        List<SaleOrderModel> orders= new ArrayList<>();
+    public ResponseEntity<CustomerDTO>getOrdersBelongToCustomer(@PathVariable("customerId") Long customerId) {
+        CustomerDTO customerDTO = new CustomerDTO();
         try{
-            orders= CustomerService.findOrders(customerId);
-            return new ResponseEntity<List<SaleOrderModel>>(orders,HttpStatus.OK);
+            customerDTO= CustomerService.findOrders(customerId);
+            return new ResponseEntity<CustomerDTO>(customerDTO,HttpStatus.OK);
         }catch(VirtualStoreException e){
-            return new ResponseEntity<List<SaleOrderModel>>(orders,HttpStatus.CONFLICT);
+            return new ResponseEntity<CustomerDTO>(customerDTO,HttpStatus.CONFLICT);
         }
 
     }

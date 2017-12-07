@@ -1,7 +1,6 @@
 package com.keyrus.virtualStore.saleOrder;
 
 import com.keyrus.virtualStore.customer.CustomerModel;
-import com.keyrus.virtualStore.product.ProductModel;
 import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductDTO;
 
 import java.io.Serializable;

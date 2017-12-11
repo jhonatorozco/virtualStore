@@ -19,63 +19,46 @@ public class ProductController {
 
 
     @PostMapping
-    public ResponseEntity<Void> createProduct(@RequestBody ProductModel product) {
+    public ResponseEntity<Void> createProduct(@RequestBody ProductModel product) throws VirtualStoreException {
 
-        try{
-            productService.addProduct(product);
-        }catch(VirtualStoreException e){
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
+        productService.addProduct(product);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductModel>> getProducts() {
-        List<ProductModel> products= new ArrayList<>();
-        try{
-            products= productService.findAll();
-            return new ResponseEntity<List<ProductModel>>(products,HttpStatus.OK);
-        }catch(VirtualStoreException e){
-            return new ResponseEntity<List<ProductModel>>(products,HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<List<ProductModel>> getProducts() throws VirtualStoreException {
+        List<ProductModel> products;
+        products = productService.findAll();
+        return new ResponseEntity<List<ProductModel>>(products, HttpStatus.OK);
 
 
     }
 
     @DeleteMapping(value = "/{productId}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("productId") Long productId) {
-        try{
-            productService.deleteProduct(productId);
-            return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-        }catch(VirtualStoreException e){
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        }
-    }
+    public ResponseEntity<Void> deleteProduct(@PathVariable("productId") Long productId) throws VirtualStoreException {
 
+        productService.deleteProduct(productId);
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
 
 
     @GetMapping(value = "/{productId}")
-    public ResponseEntity<ProductModel> getOneProduct(@PathVariable("productId") Long productId) {
-        ProductModel product = new ProductModel();
-        try{
-            product = productService.findProduct(productId);
-            return new ResponseEntity<ProductModel>(product,HttpStatus.OK);
-        }catch(VirtualStoreException e){
-            return new ResponseEntity<ProductModel>(product,HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<ProductModel> getOneProduct(@PathVariable("productId") Long productId) throws VirtualStoreException {
+        ProductModel product;
+
+        product = productService.findProduct(productId);
+        return new ResponseEntity<ProductModel>(product, HttpStatus.OK);
+
     }
 
     @PutMapping(value = "/{productId}")
-    public ResponseEntity<ProductModel> updateProduct(@PathVariable("productId") Long productId, @RequestBody ProductModel updatedProduct) {
-        ProductModel product = new ProductModel();
-        try{
-           product = productService.updateProduct(productId,updatedProduct);
-            return new ResponseEntity<ProductModel>(product,HttpStatus.OK);
-        }catch(VirtualStoreException e){
-            return new ResponseEntity<ProductModel>(product,HttpStatus.NOT_FOUND);
-        }
-    }
+    public ResponseEntity<ProductModel> updateProduct(@PathVariable("productId") Long productId, @RequestBody ProductModel updatedProduct)
+            throws VirtualStoreException {
 
+        ProductModel product ;
+        product = productService.updateProduct(productId, updatedProduct);
+        return new ResponseEntity<ProductModel>(product, HttpStatus.OK);
+    }
 
 
 }

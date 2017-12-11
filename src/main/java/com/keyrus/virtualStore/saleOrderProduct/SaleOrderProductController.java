@@ -19,15 +19,10 @@ public class SaleOrderProductController {
     private SaleOrderProductServiceImpl saleOrderProductService;
 
     @GetMapping
-    public ResponseEntity<List<SaleOrderProductModel>> getSaleOrderProducts() {
-        List<SaleOrderProductModel> productsOrder= new ArrayList<>();
-        try{
-            productsOrder= saleOrderProductService.findAll();
-            return new ResponseEntity<List<SaleOrderProductModel>>(productsOrder, HttpStatus.OK);
-        }catch(VirtualStoreException e){
-            return new ResponseEntity<List<SaleOrderProductModel>>(productsOrder,HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<List<SaleOrderProductModel>> getSaleOrderProducts() throws VirtualStoreException {
 
-
+        List<SaleOrderProductModel> productsOrder = new ArrayList<>();
+        productsOrder = saleOrderProductService.findAll();
+        return new ResponseEntity<List<SaleOrderProductModel>>(productsOrder, HttpStatus.OK);
     }
 }

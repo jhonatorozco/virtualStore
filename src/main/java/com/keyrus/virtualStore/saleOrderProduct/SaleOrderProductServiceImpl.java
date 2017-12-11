@@ -70,6 +70,10 @@ public class SaleOrderProductServiceImpl implements ISaleOrderProductService {
     @Override
     public void deleteSaleOrderProduct(Long id) throws VirtualStoreException {
         try {
+            SaleOrderProductModel saleOrderProduct = saleOrderProductRepository.findOne(id);
+            if(saleOrderProduct == null){
+                throw new VirtualStoreException("The sale order doesn't exist");
+            }
             saleOrderProductRepository.delete(id);
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");

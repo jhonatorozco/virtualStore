@@ -19,73 +19,55 @@ public class SaleOrderController {
 
 
     @PostMapping
-    public ResponseEntity<Void> createSaleOrder(@RequestBody SaleOrderDTO saleOrder) {
-
-        try{
-            saleOrderService.addSaleOrder(saleOrder);
-        }catch(VirtualStoreException e){
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<Void> createSaleOrder(@RequestBody SaleOrderDTO saleOrder) throws VirtualStoreException {
+        saleOrderService.addSaleOrder(saleOrder);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<SaleOrderDTO>> getSaleOrders() {
-        List<SaleOrderDTO> saleOrders= new ArrayList<>();
-        try{
-            saleOrders= saleOrderService.findAll();
-            return new ResponseEntity<List<SaleOrderDTO>>(saleOrders,HttpStatus.OK);
-        }catch(VirtualStoreException e){
-            return new ResponseEntity<List<SaleOrderDTO>>(saleOrders,HttpStatus.CONFLICT);
-        }
-
-
+    public ResponseEntity<List<SaleOrderDTO>> getSaleOrders() throws VirtualStoreException {
+        List<SaleOrderDTO> saleOrders = new ArrayList<>();
+        saleOrders = saleOrderService.findAll();
+        return new ResponseEntity<List<SaleOrderDTO>>(saleOrders, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{saleOrderId}")
-    public ResponseEntity<Void> deleteSaleOrder(@PathVariable("saleOrderId") Long saleOrderId) {
-        try{
+    public ResponseEntity<Void> deleteSaleOrder(@PathVariable("saleOrderId") Long saleOrderId) throws VirtualStoreException {
             saleOrderService.deleteSaleOrder(saleOrderId);
             return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-        }catch(VirtualStoreException e){
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        }
     }
 
 
-
     @GetMapping(value = "/{saleOrderId}")
-    public ResponseEntity<SaleOrderModel> getOneSaleOrder(@PathVariable("saleOrderId") Long saleOrderId) {
+    public ResponseEntity<SaleOrderModel> getOneSaleOrder(@PathVariable("saleOrderId") Long saleOrderId)
+            throws VirtualStoreException {
+
         SaleOrderModel saleOrder = new SaleOrderModel();
-        try{
+        try {
             saleOrder = saleOrderService.findSaleOrder(saleOrderId);
-            return new ResponseEntity<SaleOrderModel>(saleOrder,HttpStatus.OK);
-        }catch(VirtualStoreException e){
-            return new ResponseEntity<SaleOrderModel>(saleOrder,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<SaleOrderModel>(saleOrder, HttpStatus.OK);
+        } catch (VirtualStoreException e) {
+            return new ResponseEntity<SaleOrderModel>(saleOrder, HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping(value = "/{saleOrderId}")
-    public ResponseEntity<SaleOrderModel> updateSaleOrder(@PathVariable("saleOrderId") Long saleOrderId, @RequestBody SaleOrderModel updatedSaleOrder) {
+    public ResponseEntity<SaleOrderModel> updateSaleOrder(@PathVariable("saleOrderId") Long saleOrderId, @RequestBody SaleOrderModel updatedSaleOrder)
+            throws VirtualStoreException {
+
         SaleOrderModel saleOrder = new SaleOrderModel();
-        try{
-            saleOrder = saleOrderService.updateSaleOrder(saleOrderId,updatedSaleOrder);
-            return new ResponseEntity<SaleOrderModel>(saleOrder,HttpStatus.OK);
-        }catch(VirtualStoreException e){
-            return new ResponseEntity<SaleOrderModel>(saleOrder,HttpStatus.NOT_FOUND);
-        }
+        saleOrder = saleOrderService.updateSaleOrder(saleOrderId, updatedSaleOrder);
+        return new ResponseEntity<SaleOrderModel>(saleOrder, HttpStatus.OK);
+
     }
 
     @GetMapping(value = "/{saleOrderId}/products")
-    public ResponseEntity <List<SaleOrderProductDTO>> getProductsBelongToOrder(@PathVariable("saleOrderId") Long saleOrderId) {
-         List<SaleOrderProductDTO> products = new ArrayList<>();
+    public ResponseEntity<List<SaleOrderProductDTO>> getProductsBelongToOrder(@PathVariable("saleOrderId") Long saleOrderId)
+            throws VirtualStoreException {
 
-        try{
-            products = saleOrderService.findProducts(saleOrderId);
-            return new ResponseEntity<List<SaleOrderProductDTO>> (products,HttpStatus.OK);
-        }catch(VirtualStoreException e){
-            return new ResponseEntity <List<SaleOrderProductDTO>> (products,HttpStatus.NOT_FOUND);
-        }
+        List<SaleOrderProductDTO> products = new ArrayList<>();
+        products = saleOrderService.findProducts(saleOrderId);
+        return new ResponseEntity<List<SaleOrderProductDTO>>(products, HttpStatus.OK);
     }
 
 }

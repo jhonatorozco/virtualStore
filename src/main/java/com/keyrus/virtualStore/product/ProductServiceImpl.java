@@ -48,6 +48,9 @@ public class ProductServiceImpl implements IProductService {
         ProductModel product;
         try {
            product = productRepository.findOne(id);
+           if(product == null){
+               throw new VirtualStoreException("The product doesn't exist");
+           }
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
@@ -68,6 +71,10 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public void deleteProduct(Long id) throws VirtualStoreException {
         try {
+            ProductModel product = productRepository.findOne(id);
+            if(product == null){
+                throw new VirtualStoreException("The product doesn't exist");
+            }
             productRepository.delete(id);
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");

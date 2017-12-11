@@ -33,7 +33,7 @@ public class ProductModel implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "availableQuantity")
-    private float availableQuantity;
+    private int availableQuantity;
 
     @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
@@ -71,11 +71,11 @@ public class ProductModel implements Serializable {
         this.price = price;
     }
 
-    public float getAvailableQuantity() {
+    public int getAvailableQuantity() {
         return availableQuantity;
     }
 
-    public void setAvailableQuantity(float availableQuantity) {
+    public void setAvailableQuantity(int availableQuantity) {
         this.availableQuantity = availableQuantity;
     }
 

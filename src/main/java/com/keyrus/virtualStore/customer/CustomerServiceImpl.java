@@ -76,6 +76,10 @@ public class CustomerServiceImpl implements ICustomerService {
     @Override
     public void deleteCustomer(Long id) throws VirtualStoreException {
         try {
+            CustomerModel customer = customerRepository.findOne(id);
+            if(customer == null){
+                throw new VirtualStoreException("The customer doesn't exist");
+            }
             customerRepository.delete(id);
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");

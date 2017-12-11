@@ -22,7 +22,6 @@ public class CustomerModel {
     @Column(name = "email")
     private String email;
 
-    @JsonIgnore
     @Basic(optional = false)
     @Column(name = "password")
     private String password;

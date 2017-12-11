@@ -49,7 +49,7 @@ public class CustomerController {
     public ResponseEntity<CustomerModel>
     updateCustomer(@PathVariable("customerId") Long customerId, @RequestBody CustomerModel updatedCustomer)
             throws VirtualStoreException {
-        CustomerModel Customer = new CustomerModel();
+        CustomerModel Customer;
         Customer = CustomerService.updateCustomer(customerId, updatedCustomer);
         return new ResponseEntity<CustomerModel>(Customer, HttpStatus.OK);
 

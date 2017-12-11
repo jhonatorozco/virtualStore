@@ -44,7 +44,7 @@ public class CustomerServiceImpl implements ICustomerService {
             customer.setAddress(updatedCustomer.getAddress());
             customer.setOrders(updatedCustomer.getOrders());
             customer = customerRepository.save(customer);
-        }catch (VirtualStoreException e){
+        }catch (HibernateJdbcException e){
             throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
         return customer;

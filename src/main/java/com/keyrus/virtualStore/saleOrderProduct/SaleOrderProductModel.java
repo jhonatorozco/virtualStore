@@ -1,10 +1,12 @@
 package com.keyrus.virtualStore.saleOrderProduct;
 
 import com.keyrus.virtualStore.product.ProductModel;
+import com.keyrus.virtualStore.saleOrder.SaleOrderDTO;
 import com.keyrus.virtualStore.saleOrder.SaleOrderModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "saleOrderProduct")
@@ -58,5 +60,21 @@ public class SaleOrderProductModel implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        SaleOrderProductDTO that = (SaleOrderProductDTO) o;
+        return quantity == that.getQuantity() &&
+                Objects.equals(id, that.getId()) &&
+                Objects.equals(product, that.getProduct());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, saleOrder, product, quantity);
     }
 }

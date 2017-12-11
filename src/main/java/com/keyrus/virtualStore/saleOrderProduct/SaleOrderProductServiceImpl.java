@@ -50,6 +50,9 @@ public class SaleOrderProductServiceImpl implements ISaleOrderProductService {
         SaleOrderProductModel saleOrderProduct;
         try {
             saleOrderProduct = saleOrderProductRepository.findOne(id);
+            if(saleOrderProduct == null){
+                throw new VirtualStoreException("The sale order product doesn't exist");
+            }
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }

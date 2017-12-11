@@ -8,9 +8,10 @@ import java.util.List;
 public interface ISaleOrderService {
 
     void addSaleOrder(SaleOrderDTO SaleOrder) throws VirtualStoreException;
-    SaleOrderModel updateSaleOrder(Long id, SaleOrderModel SaleOrder) throws VirtualStoreException;
-    SaleOrderModel findSaleOrder(Long id) throws VirtualStoreException;
+    void updateSaleOrder(Long id, SaleOrderDTO updatedSaleOrder) throws VirtualStoreException;
+    SaleOrderDTO findSaleOrder(Long id) throws VirtualStoreException;
     List<SaleOrderDTO> findAll() throws VirtualStoreException;
     void deleteSaleOrder(Long id) throws VirtualStoreException;
     List<SaleOrderProductDTO> findProducts(Long id) throws VirtualStoreException;
+    SaleOrderModel updateSaleOrderPrice(Long id, SaleOrderModel updatedSaleOrder) throws VirtualStoreException;
 }

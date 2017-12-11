@@ -6,8 +6,10 @@ import java.io.Serializable;
 
 public class SaleOrderProductDTO implements Serializable {
 
-    private ProductModel product;
+
+    private Long id;
     private int quantity;
+    private ProductModel product;
 
     public SaleOrderProductDTO(){}
 
@@ -15,6 +17,7 @@ public class SaleOrderProductDTO implements Serializable {
 
         this.product = saleOrderProduct.getProduct();
         this.quantity = saleOrderProduct.getQuantity();
+        this.id = saleOrderProduct.getId();
     }
 
     public ProductModel getProduct() {
@@ -31,5 +34,13 @@ public class SaleOrderProductDTO implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

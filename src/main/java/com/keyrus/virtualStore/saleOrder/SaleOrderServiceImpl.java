@@ -6,12 +6,14 @@ import com.keyrus.virtualStore.exception.VirtualStoreException;
 import com.keyrus.virtualStore.product.IProductService;
 import com.keyrus.virtualStore.product.ProductModel;
 import com.keyrus.virtualStore.saleOrderProduct.ISaleOrderProductRepository;
+import com.keyrus.virtualStore.saleOrderProduct.ISaleOrderProductService;
 import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductDTO;
 import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateJdbcException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,9 @@ import java.util.List;
 public class SaleOrderServiceImpl implements  ISaleOrderService{
     @Autowired
     private ISaleOrderRepository saleOrderRepository;
+
+    @Autowired
+    private ISaleOrderProductService saleOrderProductService;
 
     @Autowired
     private ISaleOrderProductRepository saleOrderProductRepository;
@@ -29,7 +34,9 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
     @Autowired
     private IProductService productService;
 
+
     @Override
+    @Transactional
     public void addSaleOrder(SaleOrderDTO saleOrder) throws VirtualStoreException {
 
         try {
@@ -62,12 +69,12 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
                 saleOrderProduct.setProduct(product);
                 saleOrderProduct.setSaleOrder(saleOrderModel);
                 saleOrderProduct.setQuantity(orderProductDTO.getQuantity());
-                saleOrderProductRepository.save(saleOrderProduct);
+                saleOrderProductService.addSaleOrderProduct(saleOrderProduct);
                 totalPrice = totalPrice + orderProductDTO.getQuantity() * product.getPrice();
 
             }
             saleOrderModel.setTotalPrice(totalPrice);
-            updateSaleOrder(saleOrderModel.getId(),saleOrderModel);
+            updateSaleOrderPrice(saleOrderModel.getId(),saleOrderModel);
 
 
         } catch (HibernateJdbcException e) {
@@ -77,7 +84,7 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
     }
 
     @Override
-    public SaleOrderModel updateSaleOrder(Long id, SaleOrderModel updatedSaleOrder) throws VirtualStoreException {
+    public SaleOrderModel updateSaleOrderPrice(Long id, SaleOrderModel updatedSaleOrder) throws VirtualStoreException {
         SaleOrderModel saleOrder;
         try{
             saleOrder = saleOrderRepository.findOne(id);
@@ -96,18 +103,21 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
     }
 
     @Override
-    public SaleOrderModel findSaleOrder(Long id) throws VirtualStoreException {
+    public SaleOrderDTO findSaleOrder(Long id) throws VirtualStoreException {
         SaleOrderModel saleOrderModel;
         SaleOrderDTO saleOrder;
 
         try {
             saleOrderModel = saleOrderRepository.findOne(id);
+            if(saleOrderModel == null){
+                throw new VirtualStoreException("The sale order doesn't exist");
+            }
             saleOrder = new SaleOrderDTO(saleOrderModel);
             saleOrder.setProducts(findProducts(saleOrder.getId()));
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
-        return saleOrderModel;
+        return saleOrder;
     }
 
     @Override
@@ -160,5 +170,62 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
         }
         return products;
 
+    }
+
+    @Override
+    @Transactional
+    public void updateSaleOrder(Long id, SaleOrderDTO updatedSaleOrder) throws VirtualStoreException{
+        try {
+
+            SaleOrderModel saleOrderModel = saleOrderRepository.findOne(id);
+            if(saleOrderModel == null){
+                throw new VirtualStoreException("The sale order doesn't exist");
+            }
+            saleOrderModel.setSaleOrderDate(updatedSaleOrder.getSaleOrderDate());
+            String email = updatedSaleOrder.getCustomerOrder().getEmail();
+            CustomerModel customer = customerRepository.findByEmail(email);
+            if(customer == null){
+                throw new VirtualStoreException("The customer with this email doesn't exist");
+            }
+            int newAvailableQuantity;
+            saleOrderModel.setCustomerOrder(customer);
+            List<SaleOrderProductDTO> orderProducts = updatedSaleOrder.getProducts();
+            float totalPrice = 0;
+
+            for(SaleOrderProductDTO orderProductDTO : orderProducts){
+                Long productId = orderProductDTO.getProduct().getId();
+                ProductModel product = productService.findProduct(productId);
+                Long saleOrderProductId = orderProductDTO.getId();
+                SaleOrderProductModel saleOrderProduct = saleOrderProductRepository.findOne(saleOrderProductId);
+                if(saleOrderProduct == null ){
+                    saleOrderProduct = new SaleOrderProductModel();
+                    saleOrderProduct.setSaleOrder(saleOrderModel);
+                    saleOrderProduct.setProduct(product);
+                    saleOrderProduct.setQuantity(orderProductDTO.getQuantity());
+                    saleOrderProductService.addSaleOrderProduct(saleOrderProduct);
+                }else{
+                    if(!saleOrderProduct.equals(orderProductDTO)){
+                        saleOrderProduct.setProduct(product);
+                        saleOrderProduct.setQuantity(orderProductDTO.getQuantity());
+                        saleOrderProductService.addSaleOrderProduct(saleOrderProduct);
+                    }
+                }
+                //Update the available quantity
+                newAvailableQuantity = product.getAvailableQuantity() - orderProductDTO.getQuantity();
+                if(newAvailableQuantity < 0 ){
+                    throw new VirtualStoreException("The product doesn't have the requested quantity");
+                }
+                product.setAvailableQuantity(newAvailableQuantity);
+                product = productService.updateProduct(product.getId(),product);
+                totalPrice = totalPrice + orderProductDTO.getQuantity() * product.getPrice();
+            }
+
+            saleOrderModel.setTotalPrice(totalPrice);
+            updateSaleOrderPrice(saleOrderModel.getId(),saleOrderModel);
+
+
+        } catch (HibernateJdbcException e) {
+            throw new VirtualStoreException("This operation is unavailable right now. Try later");
+        }
     }
 }

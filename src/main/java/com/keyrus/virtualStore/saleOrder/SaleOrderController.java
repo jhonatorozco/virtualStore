@@ -46,17 +46,16 @@ public class SaleOrderController {
     }
 
     @PutMapping(value = "/{saleOrderId}")
-    public ResponseEntity<Void> updateSaleOrder(@PathVariable("saleOrderId") Long saleOrderId, @RequestBody SaleOrderDTO updatedSaleOrder)
+    public ResponseEntity<SaleOrderDTO> updateSaleOrder(@PathVariable("saleOrderId") Long saleOrderId, @RequestBody SaleOrderDTO updatedSaleOrder)
             throws VirtualStoreException {
-        saleOrderService.updateSaleOrder(saleOrderId, updatedSaleOrder);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        SaleOrderDTO saleOrderDTO = saleOrderService.updateSaleOrder(saleOrderId, updatedSaleOrder);
+        return new ResponseEntity<SaleOrderDTO>(saleOrderDTO,HttpStatus.OK);
 
     }
 
     @GetMapping(value = "/{saleOrderId}/products")
     public ResponseEntity<List<SaleOrderProductDTO>> getProductsBelongToOrder(@PathVariable("saleOrderId") Long saleOrderId)
             throws VirtualStoreException {
-
         List<SaleOrderProductDTO> products = new ArrayList<>();
         products = saleOrderService.findProducts(saleOrderId);
         return new ResponseEntity<List<SaleOrderProductDTO>>(products, HttpStatus.OK);

@@ -65,11 +65,12 @@ public class SaleOrderProductModel implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null) return false;
-        SaleOrderProductDTO that = (SaleOrderProductDTO) o;
-        return quantity == that.getQuantity() &&
-                Objects.equals(id, that.getId()) &&
-                Objects.equals(product, that.getProduct());
+        if (o == null || getClass() != o.getClass()) return false;
+        SaleOrderProductModel that = (SaleOrderProductModel) o;
+        return quantity == that.quantity &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(saleOrder, that.saleOrder) &&
+                Objects.equals(product, that.product);
     }
 
     @Override

@@ -4,9 +4,7 @@ import com.keyrus.virtualStore.exception.VirtualStoreException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,5 +22,11 @@ public class SaleOrderProductController {
         List<SaleOrderProductModel> productsOrder = new ArrayList<>();
         productsOrder = saleOrderProductService.findAll();
         return new ResponseEntity<List<SaleOrderProductModel>>(productsOrder, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{saleOrderProductId}")
+    public ResponseEntity<Void> deleteSaleOrder(@PathVariable("saleOrderProductId") Long saleOrderProductId) throws VirtualStoreException {
+        saleOrderProductService.deleteSaleOrderProduct(saleOrderProductId);
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 }

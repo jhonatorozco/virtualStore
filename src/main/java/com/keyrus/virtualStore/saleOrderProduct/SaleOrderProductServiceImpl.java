@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateJdbcException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -77,9 +78,19 @@ public class SaleOrderProductServiceImpl implements ISaleOrderProductService {
             if(saleOrderProduct == null){
                 throw new VirtualStoreException("The sale order doesn't exist");
             }
-            saleOrderProductRepository.delete(id);
+            System.out.println("el id es : " + id);
+           saleOrderProductRepository.delete(saleOrderProduct);
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");
+        }
+
+    }
+
+    @Override
+    @Transactional
+    public void updateSaleOrderProducts(List<SaleOrderProductModel> orderProducts) throws VirtualStoreException {
+        for(SaleOrderProductModel orderProduct : orderProducts){
+            updateSaleOrderProduct(orderProduct.getId(),orderProduct);
         }
 
     }

@@ -12,4 +12,5 @@ public interface ISaleOrderProductService {
     SaleOrderProductModel findSaleOrderProduct(Long id) throws VirtualStoreException;
     List<SaleOrderProductModel> findAll() throws VirtualStoreException;
     void deleteSaleOrderProduct(Long id) throws VirtualStoreException;
+    void updateSaleOrderProducts(List<SaleOrderProductModel> orderProducts) throws VirtualStoreException;
 }

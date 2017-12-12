@@ -8,7 +8,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Java Transfer Object for product table.
+ * Class that represents the product table in the database.
+ * @author Jhonatan Orozco
+ * @version 1
  */
 @Entity
 @Table(name ="product")

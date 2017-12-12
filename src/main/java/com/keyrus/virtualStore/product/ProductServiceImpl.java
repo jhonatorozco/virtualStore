@@ -7,6 +7,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Class that implements IProductService
+ * @author Jhonatan Orozco
+ * @version 1
+ */
+
 @Service
 public class ProductServiceImpl implements IProductService {
 

@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Data transfer object for SaleOrderModel entity
+ * @author Jhonatan Orozco
+ * @version 1
+ */
+
 public class SaleOrderDTO implements Serializable {
 
     private Long id;

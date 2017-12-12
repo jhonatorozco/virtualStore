@@ -4,6 +4,12 @@ import com.keyrus.virtualStore.product.ProductModel;
 
 import java.io.Serializable;
 
+/**
+ * Data transfer object for SaleOrderProductModel entity
+ * @author Jhonatan Orozco
+ * @version 1
+ */
+
 public class SaleOrderProductDTO implements Serializable {
 
 

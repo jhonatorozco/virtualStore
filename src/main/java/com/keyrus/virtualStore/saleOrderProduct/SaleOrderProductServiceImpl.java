@@ -9,6 +9,13 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * /**
+ * Class that implements ISaleOrderProductService
+ * @author Jhonatan Orozco
+ * @version 1
+ */
+
 @Service
 public class SaleOrderProductServiceImpl implements ISaleOrderProductService {
 

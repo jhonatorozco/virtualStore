@@ -5,7 +5,11 @@ import com.keyrus.virtualStore.saleOrder.SaleOrderDTO;
 
 import java.io.Serializable;
 import java.util.List;
-
+/**
+ * Data transfer object for CustomerModel entity
+ * @author Jhonatan Orozco
+ * @version 1
+ */
 public class CustomerDTO implements Serializable{
 
     private String name;

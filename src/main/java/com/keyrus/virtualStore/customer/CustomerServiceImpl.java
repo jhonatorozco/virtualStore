@@ -11,6 +11,13 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Class that implements ICustomerService
+ * @author Jhonatan Orozco
+ * @version 1
+ */
+
 @Service
 public class CustomerServiceImpl implements ICustomerService {
 
@@ -113,7 +120,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
 
         } catch (HibernateJdbcException e) {
-            throw new VirtualStoreException("The customer doesn't exist");
+            throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
         return customerDTO;
 

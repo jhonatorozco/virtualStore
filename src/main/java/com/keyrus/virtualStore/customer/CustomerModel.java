@@ -6,6 +6,11 @@ import com.keyrus.virtualStore.saleOrder.SaleOrderModel;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Class that represents the customer table in the database.
+ * @author Jhonatan Orozco
+ * @version 1
+ */
 @Entity
 @Table(name = "customer")
 public class CustomerModel {
@@ -22,6 +27,7 @@ public class CustomerModel {
     @Column(name = "email")
     private String email;
 
+    @JsonIgnore
     @Basic(optional = false)
     @Column(name = "password")
     private String password;

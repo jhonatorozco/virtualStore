@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * Class that intercepts the requests related to product resource.
+ * @author Jhonatan Orozco
+ * @version 1
+ */
 @RestController
 @RequestMapping("/products")
 public class ProductController {

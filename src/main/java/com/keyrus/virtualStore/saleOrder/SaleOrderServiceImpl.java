@@ -16,6 +16,12 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that implements ISaleOrderService
+ * @author Jhonatan Orozco
+ * @version 1
+ */
+
 @Service
 public class SaleOrderServiceImpl implements  ISaleOrderService{
     @Autowired
@@ -121,7 +127,7 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
                 }
             }
         } catch (HibernateJdbcException e) {
-            throw new VirtualStoreException("It doesn't exist products for that order");
+            throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
         return products;
 

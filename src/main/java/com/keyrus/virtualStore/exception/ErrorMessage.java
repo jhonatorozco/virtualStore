@@ -2,6 +2,11 @@ package com.keyrus.virtualStore.exception;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * The class represents the error message.
+ * @author Jhonatan Orozco
+ * @version 1
+ */
 public class ErrorMessage {
 
     private HttpStatus status;

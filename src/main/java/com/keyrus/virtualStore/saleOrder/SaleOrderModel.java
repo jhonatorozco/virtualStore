@@ -8,6 +8,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+/**
+ * Class that represents the saleOrder table in the database.
+ * @author Jhonatan Orozco
+ * @version 1
+ */
 
 @Entity
 @Table(name = "saleOrder")

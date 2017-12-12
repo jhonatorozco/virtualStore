@@ -7,6 +7,11 @@ import com.keyrus.virtualStore.saleOrder.SaleOrderModel;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
+/**
+ * Class that represents the saleOrderProduct table in the database.
+ * @author Jhonatan Orozco
+ * @version 1
+ */
 
 @Entity
 @Table(name = "saleOrderProduct")

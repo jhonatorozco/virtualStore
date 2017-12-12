@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that intercepts the requests related to saleOrderProduct resource.
+ * @author Jhonatan Orozco
+ * @version 1
+ */
 @RestController
 @RequestMapping("/saleOrderProducts")
 public class SaleOrderProductController {

@@ -5,7 +5,6 @@ import com.keyrus.virtualStore.customer.ICustomerRepository;
 import com.keyrus.virtualStore.exception.VirtualStoreException;
 import com.keyrus.virtualStore.product.IProductService;
 import com.keyrus.virtualStore.product.ProductModel;
-import com.keyrus.virtualStore.saleOrderProduct.ISaleOrderProductRepository;
 import com.keyrus.virtualStore.saleOrderProduct.ISaleOrderProductService;
 import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductDTO;
 import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductModel;
@@ -25,8 +24,6 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
     @Autowired
     private ISaleOrderProductService saleOrderProductService;
 
-    @Autowired
-    private ISaleOrderProductRepository saleOrderProductRepository;
 
     @Autowired
     private ICustomerRepository customerRepository;
@@ -36,6 +33,7 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
 
 
     @Override
+    @Transactional
     public void addSaleOrder(SaleOrderDTO saleOrder) throws VirtualStoreException {
 
         try {
@@ -50,7 +48,7 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
             saleOrderModel = saleOrderRepository.save(saleOrderModel);
             List<SaleOrderProductDTO> products = saleOrder.getProducts();
             saleOrderModel = updateProducts(saleOrderModel.getId(),products);
-
+            //update the sale order with the related products
             saleOrderRepository.save(saleOrderModel);
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");
@@ -130,6 +128,7 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
     }
 
     @Override
+    @Transactional
     public SaleOrderDTO updateSaleOrder(Long id, SaleOrderDTO updatedSaleOrder) throws VirtualStoreException{
         SaleOrderDTO saleOrderDTO;
         try {
@@ -156,6 +155,7 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
     }
 
     @Override
+    @Transactional
     public SaleOrderModel updateProducts(Long id, List<SaleOrderProductDTO> saleOrderProducts) throws VirtualStoreException{
         SaleOrderModel saleOrderModel = saleOrderRepository.findOne(id);
         if(saleOrderModel == null){
@@ -166,6 +166,12 @@ public class SaleOrderServiceImpl implements  ISaleOrderService{
         List<SaleOrderProductModel> currentOrders =  saleOrderModel.getProductsOrder();
         if(currentOrders != null ){
             for (SaleOrderProductModel saleOrderProductModel : currentOrders){
+                //update the available quantity, adding the requested quantity for the deleted order
+                ProductModel product = saleOrderProductModel.getProduct();
+                int requestedQuantity = saleOrderProductModel.getQuantity();
+                int availableQuantity = product.getAvailableQuantity() + requestedQuantity;
+                product.setAvailableQuantity(availableQuantity);
+                productService.updateProduct(product.getId(),product);
                 saleOrderProductService.deleteSaleOrderProduct(saleOrderProductModel.getId());
             }
             currentOrders.clear();

@@ -9,7 +9,7 @@ public interface ICustomerService {
 
     void addCustomer(CustomerModel customer) throws VirtualStoreException;
     CustomerModel updateCustomer(Long id, CustomerModel customer) throws VirtualStoreException;
-    CustomerModel findCustomer(Long id) throws VirtualStoreException;
+    CustomerDTO findCustomer(Long id) throws VirtualStoreException;
     List<CustomerModel> findAll() throws VirtualStoreException;
     void deleteCustomer(Long id) throws VirtualStoreException;
     CustomerDTO findOrders(Long id) throws VirtualStoreException;

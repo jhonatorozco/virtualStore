@@ -1,4 +1,4 @@
-package com.keyrus.virtualStore.saleOrderProduct;
+package com.keyrus.virtualStore.orderProduct;
 
 import com.keyrus.virtualStore.exception.VirtualStoreException;
 
@@ -11,41 +11,43 @@ import java.util.List;
 
 /**
  * /**
- * Class that implements ISaleOrderProductService
+ * Class that implements IOrderProductService
  * @author Jhonatan Orozco
  * @version 1
  */
 
 @Service
-public class SaleOrderProductServiceImpl implements ISaleOrderProductService {
+public class OrderProductServiceImpl implements IOrderProductService {
 
     @Autowired
-    private ISaleOrderProductRepository saleOrderProductRepository;
+    private IOrderProductRepository orderProductRepository;
 
     @Override
-    public void addSaleOrderProduct(SaleOrderProductModel saleOrderProduct) throws VirtualStoreException {
+    public OrderProductModel addOrderProduct(OrderProductModel orderProductModel) throws VirtualStoreException {
+        OrderProductModel orderProduct;
         try {
-            saleOrderProductRepository.save(saleOrderProduct);
+            orderProduct = orderProductRepository.save(orderProductModel);
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
+        return orderProduct;
 
     }
 
     @Override
-    public SaleOrderProductModel updateSaleOrderProduct(Long id, SaleOrderProductModel updatedSaleOrderProduct)
+    public OrderProductModel updateOrderProduct(Long id, OrderProductModel updatedOrderProduct)
             throws VirtualStoreException {
 
-        SaleOrderProductModel saleOrderProduct;
+        OrderProductModel saleOrderProduct;
         try{
-            saleOrderProduct = saleOrderProductRepository.findOne(id);
+            saleOrderProduct = orderProductRepository.findOne(id);
             if(saleOrderProduct == null){
                 throw new VirtualStoreException("The sale order doesn't exist");
             }
-            saleOrderProduct.setProduct(updatedSaleOrderProduct.getProduct());
-            saleOrderProduct.setSaleOrder(updatedSaleOrderProduct.getSaleOrder());
-            saleOrderProduct.setQuantity(updatedSaleOrderProduct.getQuantity());
-            saleOrderProduct = saleOrderProductRepository.save(saleOrderProduct);
+            saleOrderProduct.setProduct(updatedOrderProduct.getProduct());
+            saleOrderProduct.setSaleOrder(updatedOrderProduct.getSaleOrder());
+            saleOrderProduct.setQuantity(updatedOrderProduct.getQuantity());
+            saleOrderProduct = orderProductRepository.save(saleOrderProduct);
         }catch (VirtualStoreException e){
             throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
@@ -54,10 +56,10 @@ public class SaleOrderProductServiceImpl implements ISaleOrderProductService {
     }
 
     @Override
-    public SaleOrderProductModel findSaleOrderProduct(Long id) throws VirtualStoreException {
-        SaleOrderProductModel saleOrderProduct;
+    public OrderProductModel findOrderProduct(Long id) throws VirtualStoreException {
+        OrderProductModel saleOrderProduct;
         try {
-            saleOrderProduct = saleOrderProductRepository.findOne(id);
+            saleOrderProduct = orderProductRepository.findOne(id);
             if(saleOrderProduct == null){
                 throw new VirtualStoreException("The sale order product doesn't exist");
             }
@@ -68,10 +70,10 @@ public class SaleOrderProductServiceImpl implements ISaleOrderProductService {
     }
 
     @Override
-    public List<SaleOrderProductModel> findAll() throws VirtualStoreException {
-        List<SaleOrderProductModel> saleOrderProducts;
+    public List<OrderProductModel> findAll() throws VirtualStoreException {
+        List<OrderProductModel> saleOrderProducts;
         try {
-            saleOrderProducts= saleOrderProductRepository.findAll();
+            saleOrderProducts= orderProductRepository.findAll();
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
@@ -79,14 +81,14 @@ public class SaleOrderProductServiceImpl implements ISaleOrderProductService {
     }
 
     @Override
-    public void deleteSaleOrderProduct(Long id) throws VirtualStoreException {
+    public void deleteOrderProduct(Long id) throws VirtualStoreException {
         try {
-            SaleOrderProductModel saleOrderProduct = saleOrderProductRepository.findOne(id);
+            OrderProductModel saleOrderProduct = orderProductRepository.findOne(id);
             if(saleOrderProduct == null){
                 throw new VirtualStoreException("The sale order doesn't exist");
             }
             System.out.println("el id es : " + id);
-           saleOrderProductRepository.delete(saleOrderProduct);
+           orderProductRepository.delete(saleOrderProduct);
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
@@ -95,9 +97,9 @@ public class SaleOrderProductServiceImpl implements ISaleOrderProductService {
 
     @Override
     @Transactional
-    public void updateSaleOrderProducts(List<SaleOrderProductModel> orderProducts) throws VirtualStoreException {
-        for(SaleOrderProductModel orderProduct : orderProducts){
-            updateSaleOrderProduct(orderProduct.getId(),orderProduct);
+    public void updateOrderProducts(List<OrderProductModel> orderProducts) throws VirtualStoreException {
+        for(OrderProductModel orderProduct : orderProducts){
+            updateOrderProduct(orderProduct.getId(),orderProduct);
         }
 
     }

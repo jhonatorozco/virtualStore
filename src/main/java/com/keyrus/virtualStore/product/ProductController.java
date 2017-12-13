@@ -24,10 +24,10 @@ public class ProductController {
 
 
     @PostMapping
-    public ResponseEntity<Void> createProduct(@RequestBody ProductModel product) throws VirtualStoreException {
+    public ResponseEntity<ProductModel> createProduct(@RequestBody ProductModel productModel) throws VirtualStoreException {
 
-        productService.addProduct(product);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+        ProductModel product = productService.addProduct(productModel);
+        return new ResponseEntity<ProductModel>(product, HttpStatus.CREATED);
     }
 
     @GetMapping

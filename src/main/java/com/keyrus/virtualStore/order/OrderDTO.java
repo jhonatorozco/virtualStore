@@ -1,7 +1,7 @@
-package com.keyrus.virtualStore.saleOrder;
+package com.keyrus.virtualStore.order;
 
 import com.keyrus.virtualStore.customer.CustomerModel;
-import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductDTO;
+import com.keyrus.virtualStore.orderProduct.OrderProductDTO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,27 +9,27 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Data transfer object for SaleOrderModel entity
+ * Data transfer object for OrderModel entity
  * @author Jhonatan Orozco
  * @version 1
  */
 
-public class SaleOrderDTO implements Serializable {
+public class OrderDTO implements Serializable {
 
     private Long id;
     private CustomerModel customerOrder;
     private float totalPrice;
-    private Date saleOrderDate;
-    private List<SaleOrderProductDTO> products;
+    private Date orderDate;
+    private List<OrderProductDTO> products;
 
-    public SaleOrderDTO(){}
+    public OrderDTO(){}
 
-    public SaleOrderDTO(SaleOrderModel saleOrderModel){
+    public OrderDTO(OrderModel orderModel){
 
-        this.id = saleOrderModel.getId();
-        this.totalPrice = saleOrderModel.getTotalPrice();
-        this.customerOrder = saleOrderModel.getCustomerOrder();
-        this.saleOrderDate = saleOrderModel.getSaleOrderDate();
+        this.id = orderModel.getId();
+        this.totalPrice = orderModel.getTotalPrice();
+        this.customerOrder = orderModel.getCustomerOrder();
+        this.orderDate = orderModel.getOrderDate();
         this.products = new ArrayList<>();
     }
 
@@ -57,19 +57,19 @@ public class SaleOrderDTO implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public Date getSaleOrderDate() {
-        return saleOrderDate;
+    public Date getOrderDate() {
+        return orderDate;
     }
 
-    public void setSaleOrderDate(Date saleOrderDate) {
-        this.saleOrderDate = saleOrderDate;
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
-    public List<SaleOrderProductDTO> getProducts() {
+    public List<OrderProductDTO> getProducts() {
         return products;
     }
 
-    public void setProducts(List<SaleOrderProductDTO> products) {
+    public void setProducts(List<OrderProductDTO> products) {
         this.products = products;
     }
 }

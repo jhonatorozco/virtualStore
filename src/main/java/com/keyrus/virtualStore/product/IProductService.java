@@ -20,7 +20,7 @@ public interface IProductService {
      * @throws VirtualStoreException When there is an issue with the database connection or HQL query
      *  the user doesn't fill up a required field of ProductModel object
      */
-    void addProduct(ProductModel product) throws VirtualStoreException;
+    ProductModel addProduct(ProductModel product) throws VirtualStoreException;
 
     /**
      * Update the found product with the new info provided by updatedProduct

@@ -1,9 +1,9 @@
 package com.keyrus.virtualStore.customer;
 
 import com.keyrus.virtualStore.exception.VirtualStoreException;
-import com.keyrus.virtualStore.saleOrder.ISaleOrderService;
-import com.keyrus.virtualStore.saleOrder.SaleOrderDTO;
-import com.keyrus.virtualStore.saleOrder.SaleOrderModel;
+import com.keyrus.virtualStore.order.IOrderService;
+import com.keyrus.virtualStore.order.OrderModel;
+import com.keyrus.virtualStore.order.OrderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateJdbcException;
 import org.springframework.stereotype.Service;
@@ -25,15 +25,17 @@ public class CustomerServiceImpl implements ICustomerService {
     private ICustomerRepository customerRepository;
 
     @Autowired
-    private ISaleOrderService saleOrderService;
+    private IOrderService saleOrderService;
 
     @Override
-    public void addCustomer(CustomerModel customer) throws VirtualStoreException {
+    public CustomerModel addCustomer(CustomerModel customer) throws VirtualStoreException {
+        CustomerModel customerModel;
         try {
-            customerRepository.save(customer);
+            customerModel =customerRepository.save(customer);
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
+        return customerModel;
 
     }
 
@@ -59,16 +61,17 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public CustomerDTO findCustomer(Long id) throws VirtualStoreException {
+    public CustomerModel findCustomer(Long id) throws VirtualStoreException {
         CustomerModel customerModel;
-        CustomerDTO customerDTO;
         try {
             customerModel = customerRepository.findOne(id);
-            customerDTO = new CustomerDTO(customerModel);
+            if(customerModel == null){
+                throw new VirtualStoreException("The client doesn't exist");
+            }
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
-        return customerDTO;
+        return customerModel;
     }
 
     @Override
@@ -99,8 +102,8 @@ public class CustomerServiceImpl implements ICustomerService {
     @Override
     public CustomerDTO findOrders(Long id) throws VirtualStoreException{
         CustomerModel customer;
-        List<SaleOrderModel> saleOrdersModel;
-        List<SaleOrderDTO> saleOrdersDTO = new ArrayList<>();
+        List<OrderModel> saleOrdersModel;
+        List<OrderDTO> saleOrdersDTO = new ArrayList<>();
         CustomerDTO customerDTO;
         try {
             customer = customerRepository.findOne(id);
@@ -109,10 +112,10 @@ public class CustomerServiceImpl implements ICustomerService {
             }
            saleOrdersModel = customer.getOrders();
             if(saleOrdersModel != null){
-                for(SaleOrderModel saleOrderModel: saleOrdersModel){
-                    SaleOrderDTO saleOrderDTO = new SaleOrderDTO(saleOrderModel);
-                    saleOrderDTO.setProducts(saleOrderService.findProducts(saleOrderModel.getId()));
-                    saleOrdersDTO.add(saleOrderDTO);
+                for(OrderModel orderModel : saleOrdersModel){
+                    OrderDTO orderDTO = new OrderDTO(orderModel);
+                    orderDTO.setProducts(saleOrderService.findProducts(orderModel.getId()));
+                    saleOrdersDTO.add(orderDTO);
                 }
             }
             customerDTO = new CustomerDTO(customer);

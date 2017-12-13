@@ -22,9 +22,9 @@ public class CustomerController {
     private ICustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<Void> createCustomer(@RequestBody CustomerModel customer) throws VirtualStoreException {
-        customerService.addCustomer(customer);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    public ResponseEntity<CustomerModel> createCustomer(@RequestBody CustomerModel customer) throws VirtualStoreException {
+        CustomerModel customerModel = customerService.addCustomer(customer);
+        return new ResponseEntity<CustomerModel>(customerModel,HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -43,10 +43,10 @@ public class CustomerController {
 
 
     @GetMapping(value = "/{customerId}")
-    public ResponseEntity<CustomerDTO> getOneCustomer(@PathVariable("customerId") Long customerId) throws VirtualStoreException {
-        CustomerDTO customer;
+    public ResponseEntity<CustomerModel> getOneCustomer(@PathVariable("customerId") Long customerId) throws VirtualStoreException {
+        CustomerModel customer;
         customer = customerService.findCustomer(customerId);
-        return new ResponseEntity<CustomerDTO>(customer, HttpStatus.OK);
+        return new ResponseEntity<CustomerModel>(customer, HttpStatus.OK);
     }
 
     @PutMapping(value = "/{customerId}")

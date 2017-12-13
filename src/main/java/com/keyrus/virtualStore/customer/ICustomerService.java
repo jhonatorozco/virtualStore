@@ -17,7 +17,7 @@ public interface ICustomerService {
      * @throws VirtualStoreException When there is an issue with the database connection or HQL query
      *  the user doesn't fill up a required field of CustomerModel object
      */
-    void addCustomer(CustomerModel customer) throws VirtualStoreException;
+    CustomerModel addCustomer(CustomerModel customer) throws VirtualStoreException;
 
     /**
      * Update the customer with related id with the updatedCustomer
@@ -34,7 +34,7 @@ public interface ICustomerService {
      * @return The CustomerModel object stored in the database with this id
      * @throws VirtualStoreException When the customer doesn't exist in the database
      */
-    CustomerDTO findCustomer(Long id) throws VirtualStoreException;
+    CustomerModel findCustomer(Long id) throws VirtualStoreException;
 
     /**
      * Find all the customers stored in the customer table.

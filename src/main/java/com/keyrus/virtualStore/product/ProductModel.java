@@ -1,7 +1,7 @@
 package com.keyrus.virtualStore.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductModel;
+import com.keyrus.virtualStore.orderProduct.OrderProductModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -39,7 +39,7 @@ public class ProductModel implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<SaleOrderProductModel> productsOrder;
+    private List<OrderProductModel> productsOrder;
 
     public Long getId() {
         return id;
@@ -81,11 +81,11 @@ public class ProductModel implements Serializable {
         this.availableQuantity = availableQuantity;
     }
 
-    public List<SaleOrderProductModel> getProductsOrder() {
+    public List<OrderProductModel> getProductsOrder() {
         return productsOrder;
     }
 
-    public void setProductsOrder(List<SaleOrderProductModel> productsOrder) {
+    public void setProductsOrder(List<OrderProductModel> productsOrder) {
         this.productsOrder = productsOrder;
     }
 }

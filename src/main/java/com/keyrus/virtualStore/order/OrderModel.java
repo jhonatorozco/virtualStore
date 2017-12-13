@@ -1,22 +1,22 @@
-package com.keyrus.virtualStore.saleOrder;
+package com.keyrus.virtualStore.order;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.keyrus.virtualStore.customer.CustomerModel;
-import com.keyrus.virtualStore.saleOrderProduct.SaleOrderProductModel;
+import com.keyrus.virtualStore.orderProduct.OrderProductModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 /**
- * Class that represents the saleOrder table in the database.
+ * Class that represents the order table in the database.
  * @author Jhonatan Orozco
  * @version 1
  */
 
 @Entity
 @Table(name = "saleOrder")
-public class SaleOrderModel implements Serializable{
+public class OrderModel implements Serializable{
     @Id
     @Basic(optional = false)
     @Column(name = "id")
@@ -30,12 +30,12 @@ public class SaleOrderModel implements Serializable{
     @Column(name = "totalPrice")
     private float totalPrice;
 
-    @Column(name = "saleOrderDate")
-    private Date saleOrderDate;
+    @Column(name = "orderDate")
+    private Date orderDate;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "saleOrder", cascade = CascadeType.REMOVE)
-    private List<SaleOrderProductModel> productsOrder;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
+    private List<OrderProductModel> productsOrder;
 
     public Long getId() {
         return id;
@@ -61,19 +61,19 @@ public class SaleOrderModel implements Serializable{
         this.totalPrice = totalPrice;
     }
 
-    public Date getSaleOrderDate() {
-        return saleOrderDate;
+    public Date getOrderDate() {
+        return orderDate;
     }
 
-    public void setSaleOrderDate(Date saleOrderDate) {
-        this.saleOrderDate = saleOrderDate;
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
-    public List<SaleOrderProductModel> getProductsOrder() {
+    public List<OrderProductModel> getProductsOrder() {
         return productsOrder;
     }
 
-    public void setProductsOrder(List<SaleOrderProductModel> productsOrder) {
+    public void setProductsOrder(List<OrderProductModel> productsOrder) {
         this.productsOrder = productsOrder;
     }
 }

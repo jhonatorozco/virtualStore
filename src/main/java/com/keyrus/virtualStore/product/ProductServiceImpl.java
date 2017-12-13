@@ -20,12 +20,14 @@ public class ProductServiceImpl implements IProductService {
     private IProductRepository productRepository;
 
     @Override
-    public void addProduct(ProductModel product) throws VirtualStoreException {
+    public ProductModel addProduct(ProductModel productModel) throws VirtualStoreException {
+        ProductModel product;
         try {
-            productRepository.save(product);
+            product = productRepository.save(productModel);
         } catch (HibernateJdbcException e) {
             throw new VirtualStoreException("This operation is unavailable right now. Try later");
         }
+        return product;
 
     }
 

@@ -1,21 +1,20 @@
-package com.keyrus.virtualStore.saleOrderProduct;
+package com.keyrus.virtualStore.orderProduct;
 
 import com.keyrus.virtualStore.product.ProductModel;
-import com.keyrus.virtualStore.saleOrder.SaleOrderDTO;
-import com.keyrus.virtualStore.saleOrder.SaleOrderModel;
+import com.keyrus.virtualStore.order.OrderModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 /**
- * Class that represents the saleOrderProduct table in the database.
+ * Class that represents the orderProduct table in the database.
  * @author Jhonatan Orozco
  * @version 1
  */
 
 @Entity
-@Table(name = "saleOrderProduct")
-public class SaleOrderProductModel implements Serializable {
+@Table(name = "orderProduct")
+public class OrderProductModel implements Serializable {
 
     @Id
     @Basic(optional = false)
@@ -23,9 +22,9 @@ public class SaleOrderProductModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "saleOrderId")
+    @JoinColumn(name = "orderId")
     @ManyToOne(optional = false)
-    private SaleOrderModel saleOrder;
+    private OrderModel order;
 
     @JoinColumn(name = "productId")
     @ManyToOne(optional = false)
@@ -43,12 +42,12 @@ public class SaleOrderProductModel implements Serializable {
         this.id = id;
     }
 
-    public SaleOrderModel getSaleOrder() {
-        return saleOrder;
+    public OrderModel getSaleOrder() {
+        return order;
     }
 
-    public void setSaleOrder(SaleOrderModel saleOrder) {
-        this.saleOrder = saleOrder;
+    public void setSaleOrder(OrderModel order) {
+        this.order = order;
     }
 
     public ProductModel getProduct() {
@@ -71,16 +70,16 @@ public class SaleOrderProductModel implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SaleOrderProductModel that = (SaleOrderProductModel) o;
+        OrderProductModel that = (OrderProductModel) o;
         return quantity == that.quantity &&
                 Objects.equals(id, that.id) &&
-                Objects.equals(saleOrder, that.saleOrder) &&
+                Objects.equals(order, that.order) &&
                 Objects.equals(product, that.product);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, saleOrder, product, quantity);
+        return Objects.hash(id, order, product, quantity);
     }
 }

@@ -1,7 +1,7 @@
 package com.keyrus.virtualStore.customer;
 
 
-import com.keyrus.virtualStore.saleOrder.SaleOrderDTO;
+import com.keyrus.virtualStore.order.OrderDTO;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,7 +15,7 @@ public class CustomerDTO implements Serializable{
     private String name;
     private String email;
     private String address;
-    private List<SaleOrderDTO> orders;
+    private List<OrderDTO> orders;
 
     public CustomerDTO(){}
 
@@ -50,11 +50,11 @@ public class CustomerDTO implements Serializable{
         this.address = address;
     }
 
-    public List<SaleOrderDTO> getOrders() {
+    public List<OrderDTO> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<SaleOrderDTO> orders) {
+    public void setOrders(List<OrderDTO> orders) {
         this.orders = orders;
     }
 }

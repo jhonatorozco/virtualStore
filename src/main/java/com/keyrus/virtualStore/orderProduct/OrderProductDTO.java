@@ -1,25 +1,25 @@
-package com.keyrus.virtualStore.saleOrderProduct;
+package com.keyrus.virtualStore.orderProduct;
 
 import com.keyrus.virtualStore.product.ProductModel;
 
 import java.io.Serializable;
 
 /**
- * Data transfer object for SaleOrderProductModel entity
+ * Data transfer object for OrderProductModel entity
  * @author Jhonatan Orozco
  * @version 1
  */
 
-public class SaleOrderProductDTO implements Serializable {
+public class OrderProductDTO implements Serializable {
 
 
     private Long id;
     private int quantity;
     private ProductModel product;
 
-    public SaleOrderProductDTO(){}
+    public OrderProductDTO(){}
 
-    public SaleOrderProductDTO(SaleOrderProductModel saleOrderProduct){
+    public OrderProductDTO(OrderProductModel saleOrderProduct){
 
         this.product = saleOrderProduct.getProduct();
         this.quantity = saleOrderProduct.getQuantity();

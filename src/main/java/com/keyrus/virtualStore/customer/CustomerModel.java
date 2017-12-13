@@ -1,7 +1,7 @@
 package com.keyrus.virtualStore.customer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.keyrus.virtualStore.saleOrder.SaleOrderModel;
+import com.keyrus.virtualStore.order.OrderModel;
 
 import javax.persistence.*;
 import java.util.List;
@@ -27,7 +27,7 @@ public class CustomerModel {
     @Column(name = "email")
     private String email;
 
-    @JsonIgnore
+
     @Basic(optional = false)
     @Column(name = "password")
     private String password;
@@ -37,7 +37,7 @@ public class CustomerModel {
 
     @JsonIgnore
     @OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL)
-    private List<SaleOrderModel> orders;
+    private List<OrderModel> orders;
 
     public Long getId() {
         return id;
@@ -79,11 +79,11 @@ public class CustomerModel {
         this.address = address;
     }
 
-    public List<SaleOrderModel> getOrders() {
+    public List<OrderModel> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<SaleOrderModel> orders) {
+    public void setOrders(List<OrderModel> orders) {
         this.orders = orders;
     }
 }
